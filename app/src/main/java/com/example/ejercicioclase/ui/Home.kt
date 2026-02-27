@@ -5,13 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,25 +20,23 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.ejercicioclase.ui.theme.EjercicioClaseTheme
 import com.example.myapplication.R
+
 
 class Home : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,14 +44,15 @@ class Home : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             EjercicioClaseTheme {
-                HomeScreen()
+                Surface(){
+                    Navigation()
+                }
             }
         }
     }
 }
-
 @Composable
-fun HomeScreen(){
+fun HomeScreen(navController : NavController){
     Box(
         modifier = Modifier.fillMaxSize()
     ){
@@ -96,9 +92,15 @@ fun HomeScreen(){
                 .align(Alignment.BottomCenter)
 
         ){
-            BottomNav()
+            BottomNav(navController)
 
             //TODO Ponerlo en su sitio
+
+        }
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomEnd).padding(bottom = 70.dp)
+        ){
             FloatingButton()
         }
     }
@@ -114,79 +116,6 @@ fun Banner(){
     ) {
         //TODO Implementar imagen
     }
-}
-
-@Composable
-fun BottomNav(){
-    Column(
-
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(vertical = 15.dp)
-                .fillMaxWidth()
-                .height(70.dp)
-                .background(Color.Gray),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-
-        ) {
-            Image(
-                painter = painterResource(R.drawable.ic_launcher_foreground),
-                contentDescription = "",
-                modifier = Modifier
-                    .height(64.dp)
-                    .width(64.dp)
-                    .clickable {
-                        //TODO Nico con los clickables
-                    }
-            )
-            Image(
-                painter = painterResource(R.drawable.ic_launcher_foreground),
-                contentDescription = "",
-                modifier = Modifier
-                    .height(64.dp)
-                    .width(64.dp)
-                    .clickable {
-
-                    }
-            )
-            Image(
-                painter = painterResource(R.drawable.ic_launcher_foreground),
-                contentDescription = "",
-                modifier = Modifier
-                    .height(64.dp)
-                    .width(64.dp)
-                    .clickable {
-
-                    }
-            )
-            Image(
-                painter = painterResource(R.drawable.ic_launcher_foreground),
-                contentDescription = "",
-                modifier = Modifier
-                    .height(64.dp)
-                    .width(64.dp)
-                    .clickable {
-
-                    }
-            )
-        }
-    }
-}
-
-@Composable
-fun SearchField(label : String, modifier: Modifier = Modifier){
-    //Hay que hacer una variable busqueda que sera byremember mutable state
-    var search by remember { mutableStateOf("") }
-
-    TextField(
-        value = search,
-        onValueChange = {search = it},
-        label = { Text(text = label) },
-        singleLine = true,
-    )
-
 }
 
 @Composable
@@ -220,16 +149,21 @@ fun ProductCorrousel(){
     }
 }
 
-@Composable
-fun ProductCard(){
-
-}
-
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun Preview(){
     EjercicioClaseTheme() {
-        HomeScreen()
+        HomeScreen(NavController(LocalContext.current))
+    }
+}
+
+@Preview(showSystemUi = true, showBackground = true,
+    device = "spec:width=411dp,height=891dp,orientation=landscape"
+)
+@Composable
+fun Preview2(){
+    EjercicioClaseTheme() {
+        HomeScreen(NavController(LocalContext.current))
     }
 }
 
@@ -254,43 +188,6 @@ fun ProductSection(){
     }
 }
 
-//Se usa para poner los títulos a las secciones donde lo queramos utilizar
-@Composable
-fun SectionTitle(title : String){
-    Text(
-        text = title,
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-        fontSize = 18.sp,
-        fontWeight = FontWeight.Bold
-    )
-}
-
-@Composable
-fun TopBar(){
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Image(
-            painter = painterResource(R.drawable.ic_launcher_foreground),
-            contentDescription = "Logo",
-            modifier = Modifier
-                .height(64.dp)
-                .width(64.dp),
-        )
-
-        SearchField("Buscar...")
-
-        Image(
-            painter = painterResource(R.drawable.ic_launcher_foreground),
-            contentDescription = "Menu",
-            modifier = Modifier
-                .height(64.dp)
-                .width(64.dp)
-        )
-    }
-}
-
 @Composable
 fun FloatingButton(){
     FloatingActionButton(
@@ -301,7 +198,8 @@ fun FloatingButton(){
         shape = CircleShape,
         modifier = Modifier
             .height(100.dp)
-            .width(100.dp)
+            .width(100.dp),
+
     ) {
         Text(
             text = "Toda \n La Liga \n gratis",

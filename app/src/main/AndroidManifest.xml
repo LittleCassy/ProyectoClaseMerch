@@ -10,17 +10,37 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyApplication">
+        android:theme="@style/Theme.EjercicioClase">
         <activity
-            android:name=".ui.TEST"
+            android:name="com.example.ejercicioclase.ui.Home"
             android:exported="false"
-            android:label="@string/title_activity_test"
-            android:theme="@style/Theme.MyApplication" />
+            android:label="Home"
+            android:theme="@style/Theme.EjercicioClase" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.ejercicioclase.ui.Configuracion"
+            android:exported="false"
+            android:label="B"
+            android:theme="@style/Theme.EjercicioClase" />
+        <activity
+            android:name="com.example.ejercicioclase.ui.Login"
+            android:exported="false"
+            android:label="D"
+            android:theme="@style/Theme.EjercicioClase" />
+        <activity
+            android:name="com.example.ejercicioclase.ui.PasarelaPago"
+            android:exported="false"
+            android:label="E"
+            android:theme="@style/Theme.EjercicioClase" />
+        <activity
+            android:name="com.example.ejercicioclase.ui.Mascot"
+            android:exported="false"
+            android:label="F"
+            android:theme="@style/Theme.EjercicioClase" />
+        <activity
+            android:name="com.example.ejercicioclase.ui.Splash"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.MyApplication">
+            android:theme="@style/Theme.EjercicioClase">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
